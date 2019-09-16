@@ -1,2 +1,2 @@
 # ComenziRestaurant
-ProiectSDA-7
+Proiect final SDA-7
