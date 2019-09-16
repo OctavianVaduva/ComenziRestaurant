@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Pagina de start</title>
 </head>
 <body>
+<table>
+    <tbody>
+    <tr th:each = "valueItem : ${values}">
+        <td th:text = "${valueItem.value}"></td>
+    </tr>
+    </tbody>
+</table>
 
 </body>
 </html>
