@@ -33,7 +33,7 @@ create table if not exists produse
   constraint id_categorie foreign key (id_categorie) references Restaurant.categorie_produs (idCategorie_Produs)
 );
 
-create index id_categorie_idx on produse (id_categorie);
+create index id_categorie_idx on Restaurant.produse (id_categorie);
 
 insert into Restaurant.produse (id_categorie, nume_produs, obs_produs, pret_unitar, stoc_level, alert_level) values
   (1, 'Cașcaval pane cu cartofi prăjiți', '', 19.50, 30, 5),
@@ -160,14 +160,14 @@ insert into Restaurant.produse (id_categorie, nume_produs, obs_produs, pret_unit
   (12, 'Smântână (70g)', '', 2.50, 30, 5);
 
 
-create table if not exists ospatar
+create table if not exists ospatari
 (
   id_ospatar int auto_increment primary key,
   nume_ospatar varchar(45) not null,
   prenume_ospatar varchar(45) null
 );
 
-insert into Restaurant.ospatar (nume_ospatar, prenume_ospatar) values
+insert into Restaurant.ospatari (nume_ospatar, prenume_ospatar) values
   ('Cristina', 'ENE'),
   ('Brad','PITT'),
   ('Kim','KARDASHIAN'),
@@ -176,55 +176,105 @@ insert into Restaurant.ospatar (nume_ospatar, prenume_ospatar) values
   ('Ben','AFFLEK'),
   ('Jennifer','ANISTON'),
   ('Angelina','JOLIE'),
-  ('Scarlett','JOHANSSON')
+  ('Tom','CRUISE'),
+  ('Rihana',''),
+  ('Mila','KUNIS'),
+  ('Paris','HILTON'),
+  ('George', 'CLOONEY'),
+  ('Charlize', 'THERON')
 ;
 
 create table if not exists mese
 (
   id_masa int auto_increment primary key,
   numar_masa int not null,
-  capacitate_masa int not null,
-  id_ospatar int not null,
-  constraint id_ospatar foreign key (id_ospatar) references ospatar (id_ospatar)
+  capacitate_masa int not null
 );
-create index id_ospatar_idx on mese (id_ospatar);
 
-insert into Restaurant.mese (numar_masa, capacitate_masa, id_ospatar) values
-  (1, 4, 1),
-  (2, 4, 1),
-  (3, 4, 1),
-  (4, 4, 1),
-  (5, 6, 2),
-  (6, 4, 2),
-  (7, 4, 2),
-  (8, 4, 3),
-  (9, 3, 3),
-  (10, 4, 3)
+insert into Restaurant.mese (numar_masa, capacitate_masa) values
+  (1, 4),
+  (2, 4),
+  (3, 4),
+  (4, 4),
+  (5, 6),
+  (6, 4),
+  (7, 4),
+  (8, 4),
+  (9, 3),
+  (10, 4)
+;
+create index numar_masa_idx on Restaurant.mese (numar_masa);
+
+
+create table if not exists mese_ospatari
+(
+  data date not null,
+  numar_masa int not null,
+  id_ospatar int not null,
+  constraint foreign key(numar_masa) references Restaurant.mese (numar_masa),
+  constraint foreign key(id_ospatar) references Restaurant.ospatari (id_ospatar)
+);
+
+insert into Restaurant.mese_ospatari (data, numar_masa, id_ospatar) values
+  ('2019-05-21', 1, 1),
+  ('2019-05-21', 2, 1),
+  ('2019-05-21', 3, 1),
+  ('2019-05-21', 4, 2),
+  ('2019-05-21', 5, 2),
+  ('2019-05-21', 6, 3),
+  ('2019-05-21', 7, 3),
+  ('2019-05-21', 8, 3),
+  ('2019-05-21', 9, 4),
+  ('2019-05-21', 10, 4),
+  ('2019-05-22', 1, 5),
+  ('2019-05-22', 2, 5),
+  ('2019-05-22', 3, 5),
+  ('2019-05-22', 4, 6),
+  ('2019-05-22', 5, 6),
+  ('2019-05-22', 6, 7),
+  ('2019-05-22', 7, 7),
+  ('2019-05-22', 8, 7),
+  ('2019-05-22', 9, 8),
+  ('2019-05-22', 10, 8),
+  ('2019-05-23', 1, 9),
+  ('2019-05-23', 2, 9),
+  ('2019-05-23', 3, 9),
+  ('2019-05-23', 4, 10),
+  ('2019-05-23', 5, 10),
+  ('2019-05-23', 6, 11),
+  ('2019-05-23', 7, 11),
+  ('2019-05-23', 8, 11),
+  ('2019-05-23', 9, 12),
+  ('2019-05-23', 10, 12)
 ;
 
-create table if not exists orders
+create table if not exists comenzi
 (
   id_comanda int not null auto_increment primary key,
   id_masa int not null,
+  data_comanda datetime not null,
   pret_total_comanda DECIMAL(7,2) null,
   incasat DECIMAL(7,2) default 0 not null,
-  constraint id_masa foreign key (id_masa) references mese (id_masa)
+  data_incasare datetime not null,
+  constraint id_masa foreign key (id_masa) references Restaurant.mese (id_masa)
 );
-create index id_masa_idx  on orders (id_masa);
+create index id_masa_idx  on Restaurant.comenzi (id_masa);
 
-create table  if not exists current_order
+create table  if not exists comanda_curenta
 (
-  id_current_order int not null primary key,
-  id_order int not null,
+  id_comanda_curenta int not null primary key,
+  id_comanda int not null,
+  data_comanda datetime not null,
   id_produs int null,
   nr_produse int not null,
-  pret_total decimal not null,
-  make_time_final_min int null,
-  livrat tinyint default 0 null,
+  pret_echivalent decimal not null, # TODO se calculeaza, nu este o valoare fixa - poate fi scos din tabel
+  make_time_final_min int null, # TODO s-ar putea sa ne creeze probleme - trebuie introduse date in tabelul cu produse
+  livrat tinyint default 0 null,# TODO panou/fisier confirmare livrare
+  pret_total_comanda decimal not null, # TODO se calculeaza, nu este o valoare fixa - poate fi scos din tabel
   id_masa int not null,
-  constraint id_order foreign key (id_order) references orders (id_comanda),
-  constraint id_produs foreign key (id_produs) references produse (id_produs)
+  constraint id_comanda foreign key (id_comanda) references Restaurant.comenzi (id_comanda),
+  constraint id_produs foreign key (id_produs) references Restaurant.produse (id_produs)
 );
-create index id_masa_idx on current_order (id_masa);
-create index id_order_idx on current_order (id_order);
-create index id_produs_idx on current_order (id_produs);
+create index id_masa_idx on comanda_curenta (id_masa);
+create index id_comanda_idx on comanda_curenta (id_comanda);
+create index id_produs_idx on comanda_curenta (id_produs);

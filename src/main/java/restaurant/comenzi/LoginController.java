@@ -7,18 +7,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-//@RestController
 @Controller
+//@Controller
 public class LoginController {
 
-//    @RequestMapping("/login")
-    @GetMapping("/loginAdmin")
+    @RequestMapping("/loginAdmin")
+//    @GetMapping("/loginAdmin")
     public String loginAdmin() {
         return "loginAdmin";
     }
 
-    @GetMapping("/loginClient")
+    @RequestMapping("/loginClient")
+//    @GetMapping("/loginClient")
     public String loginClient() {
         return "loginClient";
+    }
+
+    @RequestMapping("/repartizareMese")
+//    @GetMapping("/repartizareMese")
+    public String repartizareMese() {
+        return "repartizareMese";
     }
 }
