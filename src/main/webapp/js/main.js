@@ -3,7 +3,7 @@ function submitForm(){
   // var username = document.getElementById('username');
   var username = document.getElementsByName('username');
   // var password = document.getElementById('password');
-    var password = document.getElementsByName('password')
+   var password = document.getElementsByName('password');
 
   // am luat div-ul de details
   var container = document.getElementsByClassName('details');
