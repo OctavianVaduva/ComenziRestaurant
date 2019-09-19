@@ -13,7 +13,8 @@ import java.io.IOException;
 @WebServlet("/LoginAdminServlet")
 public class LoginAdminServlet extends HttpServlet {
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    private void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
     {
         System.out.println("Hello from LoginAdminServlet.processRequest()");
 
@@ -25,7 +26,7 @@ public class LoginAdminServlet extends HttpServlet {
 
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         System.out.println("LoginAdminServlet.doPost()");
@@ -44,7 +45,7 @@ public class LoginAdminServlet extends HttpServlet {
         } else {
             System.out.println("User si/sau parola incorecte");  // TODO: trimite mesaj: Logon Denied
             request.setAttribute("Mesaj eroare", "Logon Denied - User si/sau Password incorecte!");
-            RequestDispatcher rd = request.getRequestDispatcher("/loginAdmin.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("/loginAdmin");
             rd.forward(request, response);
         }
     }

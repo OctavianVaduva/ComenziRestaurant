@@ -4,13 +4,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-//@Controller
 public class LoginController {
 
-    @RequestMapping("/loginAdmin.jsp")
+    @RequestMapping("/loginAdmin")
 //    @GetMapping("/loginAdmin")
     public String loginAdmin() {
-        return "loginAdmin.html";
+        return "loginAdmin.jsp";
     }
 
     @RequestMapping("/loginClient")

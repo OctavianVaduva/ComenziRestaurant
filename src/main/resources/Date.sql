@@ -3,7 +3,7 @@ USE Restaurant;
 
 create table if not exists categorie_produs
 (
-  idCategorie_Produs int not null auto_increment primary key,
+  id_categorie_produs int not null auto_increment primary key,
   nume_categorie_produs varchar(45) not null
 );
 
@@ -26,16 +26,16 @@ create table if not exists produse
   id_produs int not null auto_increment primary key,
   id_categorie int not null,
   nume_produs varchar(60) not null,
-  obs_produs varchar(250) default null,
+  descriere_produs varchar(250) default null,
   pret_unitar DECIMAL(7,2) default 0 not null,
-  stoc_level int not null,
-  alert_level int default 50 not null,
-  constraint id_categorie foreign key (id_categorie) references Restaurant.categorie_produs (idCategorie_Produs)
+  nivel_existent int not null,
+  nivel_alerta int default 50 not null,
+  constraint id_categorie foreign key (id_categorie) references Restaurant.categorie_produs (id_categorie_produs)
 );
 
 create index id_categorie_idx on Restaurant.produse (id_categorie);
 
-insert into Restaurant.produse (id_categorie, nume_produs, obs_produs, pret_unitar, stoc_level, alert_level) values
+insert into Restaurant.produse (id_categorie, nume_produs, descriere_produs, pret_unitar, nivel_existent, nivel_alerta) values
   (1, 'Cașcaval pane cu cartofi prăjiți', '', 19.50, 30, 5),
   (1, 'Fasole bătută ca la Buzău (250g)', 'Cu ceapă călită şi usturoi - produs vegetarian', 9.50, 20, 3),
   (1, 'Gustarea bibliotecarului (520g)', 'Frigărui de pui cu bacon, chifteluțe cu susan, bulete de cașcaval, ciuperci umplute cu brânză de burduf, ardei gras', 30.50, 20, 5),
