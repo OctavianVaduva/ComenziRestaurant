@@ -2,9 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Login page as CLIENT</title>
+    <title>Pagina CLIENT</title>
 </head>
 <body>
+    <div class="topMenu"> <!--crearea uneui meniu in partea de sus a ecranului-->
+        <button class="tablinks" onclick="location.href='/index'">Home</button>
+        <button class="tablinks" onclick="location.href='/loginAdmin'">Administrator</button>
+        <button class="tablinks" onclick="location.href='/loginOspatar'">Ospatar</button>
+        <button class="tablinks" onclick="location.href='/loginClient'">Client</button>
+        <button class="tablinks" onclick="location.href='/afisareMeniu'">Meniu</button>
+        <button class="tablinks" onclick="location.href='/comandaCurenta'">Comanda curenta</button>
+    </div>
+
     <p th:text="'Hello, DIN TEMPLATE.loginClient'" />
+
 </body>
 </html>

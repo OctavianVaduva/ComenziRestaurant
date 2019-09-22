@@ -1,6 +1,7 @@
-package restaurant.comenzi;
+package restaurant.servlets;
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import restaurant.service.OspatariServiceDAO;
+import restaurant.service.OspatariServiceInterface;
 
 import javax.servlet.*;
 import javax.servlet.ServletException;
@@ -20,7 +21,7 @@ public class LoginAdminServlet extends HttpServlet {
 
         // Creating a RequestDispatcher object to dispatch the request to another resourcee
         // Creem un obiect rd de tip RequestDispatcher
-        RequestDispatcher rd = request.getRequestDispatcher("/templates/dailyConfiguration"); // public interface RequestDispatcher
+        RequestDispatcher rd = request.getRequestDispatcher("/src/main/resourses/templates/dailyConfiguration"); // public interface RequestDispatcher
         rd.forward(request, response); // transmitem raspunsul care va genera deschiderea paginii dailyConfiguration.html
     }
 
@@ -34,7 +35,9 @@ public class LoginAdminServlet extends HttpServlet {
         String introducedPassword = request.getParameter("password"); // solicita de la form password
 
         if (hasRight(introducedUsername, introducedPassword)) {
-            // raspunsul hasTrue == true solicita executarea procesului
+
+            System.out.println(ospatarService.getOspatar().toString()); // afiseaza in consola ospatarii
+            request.setAttribute("Ospatari",ospatarService.getListaOspatari()); // setam atributele request
             System.out.println("     doPost() apeleaza processRequest(request, response)");
             processRequest(request, response);
 //            @RequestMapping("/dailyConfiguration"
@@ -45,7 +48,7 @@ public class LoginAdminServlet extends HttpServlet {
         } else {
             System.out.println("User si/sau parola incorecte");  // TODO: trimite mesaj: Logon Denied
             request.setAttribute("Mesaj eroare", "Logon Denied - User si/sau Password incorecte!");
-            RequestDispatcher rd = request.getRequestDispatcher("/loginAdmin");
+            RequestDispatcher rd = request.getRequestDispatcher("resoursec/templates/loginAdmin");
             rd.forward(request, response);
         }
     }
@@ -53,6 +56,8 @@ public class LoginAdminServlet extends HttpServlet {
     // Valori introduse manual pentru a putea verifica functionatii acceptarii accesului
     private static String username = "admin"; //TODO: de gasit solutia de postare in alta parte, pentru mai multe combinatii USER / PASSWORD
     private static String password = "admin";
+
+    private OspatariServiceInterface ospatarService = new OspatariServiceDAO(); // stie sa faca serviciipentru mine
 
     private boolean hasRight(String introducedUsername, String introducedPaswword) {
         //verificare concordanta username - parola. Din ratiuni didactice, valorile de control sunt prestabilite mai sus
